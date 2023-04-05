@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid'
+import { PriceDidntChangeError } from '../../errors/errors'
 
 type GuessDirection = 'up' | 'down'
 
@@ -42,6 +43,8 @@ export class Guess {
     } else if (this.guess === 'down' && !isPriceHigher) {
       this.resolvedAt = new Date()
       this.isCorrect = true
+    } else {
+      throw new PriceDidntChangeError()
     }
   }
 }

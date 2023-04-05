@@ -1,6 +1,7 @@
 import { type Request, type Response } from 'express'
 import { type IGuessService } from '../services/guessService'
 import { type GuessProps } from '../domain/guess'
+import { PriceAtGuessError, GuessTooRecentError } from '../../errors/errors'
 
 export class GuessController {
   private readonly guessService: IGuessService
@@ -25,7 +26,18 @@ export class GuessController {
       return
     }
 
-    const player = await this.guessService.resolveGuess(guess)
-    res.status(200).send(player)
+    try {
+      const player = await this.guessService.resolveGuess(guess)
+      res.status(200).send(player)
+    } catch (error) {
+      if (error instanceof PriceAtGuessError) {
+        res.status(400).json({ message: error.message })
+      } else if (error instanceof GuessTooRecentError) {
+        res.status(400).json({ message: error.message })
+      } else {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error' })
+      }
+    }
   }
 }

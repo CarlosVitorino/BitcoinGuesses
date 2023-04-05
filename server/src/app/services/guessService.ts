@@ -3,6 +3,7 @@ import { type Player } from '../domain/player'
 import { type IGuessRepository } from '../../interfaces/repositories/guessRepository'
 import { type IPlayerRepository } from '../../interfaces/repositories/playerRepository'
 import { type IPriceFetcher } from '../../interfaces/external/priceFetcher'
+import { PriceAtGuessError, GuessTooRecentError } from '../../errors/errors'
 
 interface IGuessService {
   createGuess: (guessProps: GuessProps) => Promise<void>
@@ -34,12 +35,12 @@ class GuessService implements IGuessService {
     const latestPrice = await this.priceFetcher.fetchLatestPrice()
     const doubleCheckPriceAtGuess = await this.priceFetcher.fetchPriceAt(guess.createdAt)
     if (doubleCheckPriceAtGuess !== guess.priceAtGuess) {
-      throw new Error('Price at guess is incorrect!')
+      throw new PriceAtGuessError()
     }
 
     const elapsedSeconds = (new Date().getTime() - guess.createdAt.getTime()) / 1000
-    if (elapsedSeconds <= 5) {
-      throw new Error('Guess must be at least 60 seconds old before it can be resolved')
+    if (elapsedSeconds <= 60) {
+      throw new GuessTooRecentError()
     }
 
     await this.guessRepository.resolveGuess(guess, latestPrice)
