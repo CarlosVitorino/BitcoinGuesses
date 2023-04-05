@@ -32,6 +32,15 @@ class GuessService implements IGuessService {
 
   async resolveGuess (guess: Guess): Promise<Player | undefined> {
     const latestPrice = await this.priceFetcher.fetchLatestPrice()
+    const doubleCheckPriceAtGuess = await this.priceFetcher.fetchPriceAt(guess.createdAt)
+    if (doubleCheckPriceAtGuess !== guess.priceAtGuess) {
+      throw new Error('Price at guess is incorrect!')
+    }
+
+    const elapsedSeconds = (new Date().getTime() - guess.createdAt.getTime()) / 1000
+    if (elapsedSeconds <= 5) {
+      throw new Error('Guess must be at least 60 seconds old before it can be resolved')
+    }
 
     await this.guessRepository.resolveGuess(guess, latestPrice)
     const playerUpdated = await this.playerRepository.updatePlayerScore(guess.playerId, guess.isCorrect)

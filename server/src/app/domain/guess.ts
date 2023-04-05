@@ -35,16 +35,13 @@ export class Guess {
       throw new Error('This guess has already been resolved')
     }
 
-    this.resolvedAt = new Date()
-
     const isPriceHigher = price > (this.priceAtGuess ?? 0)
-
     if (this.guess === 'up' && isPriceHigher) {
+      this.resolvedAt = new Date()
       this.isCorrect = true
     } else if (this.guess === 'down' && !isPriceHigher) {
+      this.resolvedAt = new Date()
       this.isCorrect = true
-    } else {
-      this.isCorrect = false
     }
   }
 }
