@@ -12,7 +12,6 @@ export class PlayerController {
 
   public async createPlayer (req: Request, res: Response): Promise<void> {
     const result = await this.playerService.createPlayer()
-
     res.status(201).json(result)
   }
 

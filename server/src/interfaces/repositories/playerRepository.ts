@@ -1,3 +1,5 @@
+import { type DynamoDB } from 'aws-sdk'
+import { type DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { Player } from '../../app/domain/player'
 
 export interface IPlayerRepository {
@@ -6,36 +8,61 @@ export interface IPlayerRepository {
   updatePlayerScore: (playerId: string, isCorrect: boolean | undefined) => Promise<Player | undefined>
 }
 
-interface InMemoryDatabase {
-  players: Record<string, Player>
-}
-
 export class PlayerRepository implements IPlayerRepository {
-  private readonly db: InMemoryDatabase
+  private readonly tableName: string = 'players'
+  private readonly client: DocumentClient
 
-  constructor () {
-    this.db = {
-      players: {}
-    }
+  constructor (dynamoDb: DynamoDB.DocumentClient) {
+    this.client = dynamoDb
   }
 
   async createPlayer (): Promise<Player> {
     const player = new Player()
+    const params = {
+      TableName: this.tableName,
+      Item: player.toPlainObject()
+    }
 
-    this.db.players[player.id] = player
+    await this.client.put(params).promise()
 
     return player
   }
 
   async getPlayerById (id: string): Promise<Player | undefined> {
-    return this.db.players[id]
+    const params = {
+      TableName: this.tableName,
+      Key: {
+        id
+      }
+    }
+
+    const result = await this.client.get(params).promise()
+
+    if (result.Item == null) {
+      return undefined
+    }
+
+    return result.Item as Player
   }
 
   async updatePlayerScore (playerId: string, isCorrect: boolean | undefined): Promise<Player | undefined> {
-    const player = this.db.players[playerId]
+    const player = await this.getPlayerById(playerId)
+
     if (player != null && isCorrect != null) {
       player.addScore(isCorrect ? 1 : -1)
-      this.db.players[playerId] = player
+      const params = {
+        TableName: this.tableName,
+        Key: {
+          id: playerId
+        },
+        UpdateExpression: 'set updatedAt = :updatedAt,  score = :score',
+        ExpressionAttributeValues: {
+          ':updatedAt': player.updatedAt.toISOString(),
+          ':score': player.score
+        }
+      }
+
+      await this.client.update(params).promise()
     }
 
     return player

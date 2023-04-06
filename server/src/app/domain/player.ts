@@ -24,4 +24,13 @@ export class Player {
     this.score += amount
     this.updatedAt = new Date()
   }
+
+  toPlainObject (): any {
+    return {
+      id: this.id,
+      score: this.score,
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt.toISOString()
+    }
+  }
 }

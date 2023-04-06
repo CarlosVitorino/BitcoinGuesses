@@ -12,6 +12,7 @@ export interface GuessProps {
   resolvedAt?: Date
   isCorrect?: boolean
 }
+
 export class Guess {
   public id: string
   public playerId: string
@@ -45,6 +46,18 @@ export class Guess {
       this.isCorrect = true
     } else {
       throw new PriceDidntChangeError()
+    }
+  }
+
+  toPlainObject (): any {
+    return {
+      id: this.id,
+      playerId: this.playerId,
+      guess: this.guess,
+      priceAtGuess: this.priceAtGuess,
+      createdAt: this.createdAt.toISOString(),
+      resolvedAt: this.resolvedAt?.toISOString(),
+      isCorrect: this.isCorrect
     }
   }
 }

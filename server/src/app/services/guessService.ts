@@ -6,8 +6,8 @@ import { type IPriceFetcher } from '../../interfaces/external/priceFetcher'
 import { PriceAtGuessError, GuessTooRecentError } from '../../errors/errors'
 
 interface IGuessService {
-  createGuess: (guessProps: GuessProps) => Promise<void>
-  getUnresolvedGuessByPlayerId: (playerId: string) => Promise<Guess | undefined>
+  createGuess: (guessProps: GuessProps) => Promise<Guess | undefined>
+  getUnresolvedGuess: (guessId: string) => Promise<Guess | undefined>
   resolveGuess: (guess: Guess) => Promise<Player | undefined>
 }
 
@@ -22,18 +22,19 @@ class GuessService implements IGuessService {
     this.priceFetcher = priceFetcher
   }
 
-  async createGuess (guessProps: GuessProps): Promise<void> {
-    const guess = new Guess(guessProps)
-    await this.guessRepository.createGuess(guess)
+  async createGuess (guessProps: GuessProps): Promise<Guess | undefined> {
+    let guess = new Guess(guessProps)
+    guess = await this.guessRepository.createGuess(guess)
+    return guess
   }
 
-  async getUnresolvedGuessByPlayerId (playerId: string): Promise<Guess | undefined> {
-    return await this.guessRepository.getUnresolvedGuessByPlayerId(playerId)
+  async getUnresolvedGuess (guessId: string): Promise<Guess | undefined> {
+    return await this.guessRepository.getUnresolvedGuess(guessId)
   }
 
   async resolveGuess (guess: Guess): Promise<Player | undefined> {
     const latestPrice = await this.priceFetcher.fetchLatestPrice()
-    const doubleCheckPriceAtGuess = await this.priceFetcher.fetchPriceAt(guess.createdAt)
+    const doubleCheckPriceAtGuess = await this.priceFetcher.fetchPriceAt(guess.createdAt.toISOString())
     if (doubleCheckPriceAtGuess !== guess.priceAtGuess) {
       throw new PriceAtGuessError()
     }

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export interface IPriceFetcher {
   fetchLatestPrice: () => Promise<number>
-  fetchPriceAt: (timestamp: Date) => Promise<number>
+  fetchPriceAt: (timestamp: string) => Promise<number>
 
 }
 
@@ -19,14 +19,14 @@ export class PriceFetcher implements IPriceFetcher {
     }
   }
 
-  public async fetchPriceAt (timestamp: Date): Promise<number> {
+  public async fetchPriceAt (timestamp: string): Promise<number> {
     try {
-      const url = `${this.apiUrl}?date=${timestamp.toISOString()}`
+      const url = `${this.apiUrl}?date=${timestamp}`
       const response = await axios.get(url)
       return parseFloat(response.data.data.amount)
     } catch (error) {
       console.error(error)
-      throw new Error(`Failed to fetch BTC price at timestamp: ${timestamp.toISOString()}`)
+      throw new Error(`Failed to fetch BTC price at timestamp: ${timestamp}`)
     }
   }
 }

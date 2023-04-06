@@ -14,13 +14,13 @@ export class GuessController {
 
   public async createGuess (req: Request, res: Response): Promise<void> {
     const guessProps: GuessProps = req.body
-    await this.guessService.createGuess(guessProps)
-    res.status(201).send()
+    const guess = await this.guessService.createGuess(guessProps)
+    res.status(201).send(guess)
   }
 
   public async resolveGuess (req: Request, res: Response): Promise<void> {
-    const playerId: string = req.params.playerId
-    const guess = await this.guessService.getUnresolvedGuessByPlayerId(playerId)
+    const guessId: string = req.params.guessId
+    const guess = await this.guessService.getUnresolvedGuess(guessId)
     if (guess == null) {
       res.status(404).send()
       return
