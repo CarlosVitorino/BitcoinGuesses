@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import GuessForm from '../components/GuessForm';
 import ScoreDisplay from '../components/ScoreDisplay';
 import PriceDisplay from '../components/PriceDisplay';
@@ -34,6 +37,7 @@ const HomePage: React.FC = () => {
         .then((player) => {
           setPlayer(player);
           setScore(player.score);
+          toast('Welcome back!');
         })
         .catch(() => {
           console.log('Error fetching player');
@@ -56,6 +60,7 @@ const HomePage: React.FC = () => {
       console.log('Guess resolved:', resolvedGuess);
       setResolvedGuess(null);
       setScore(player?.score!);
+      toast('Your guess has been resolved!');
     }
 
   }, [player, resolvedGuess]);
@@ -63,13 +68,13 @@ const HomePage: React.FC = () => {
   const submitEvent = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!guessDirection || !/^(up|down)$/i.test(guessDirection)) {
-      console.log('Please enter a valid guess (up or down)');
+      toast('Please enter a valid guess (up or down)');
       return;
     }
 
     try {
       if (!player) {
-        console.log('Player not found. Creating new player...');
+        toast('Player not found. Creating new player...');
         const newPlayer = await createPlayer();
         setPlayer(newPlayer);
         console.log('Player created:', newPlayer);
@@ -83,8 +88,10 @@ const HomePage: React.FC = () => {
       newGuess = await createGuess(newGuess);
       setGuess(newGuess);
       setResolvedGuess(false);
+      toast('Your guess has been submitted!');
       console.log(`Your guess is ${newGuess.guess}, with ID ${newGuess.id}`);
     } catch (error) {
+      toast('Error submitting guess');
       console.error(error);
     }
 
@@ -93,6 +100,20 @@ const HomePage: React.FC = () => {
   return (
     <div className="bg-gray-50 h-screen">
       <nav className="bg-indigo-500 shadow-lg">
+      <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
+{/* Same as */}
+<ToastContainer />
         <div className="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
           <div className="flex items-center justify-between">
             <div className="text-xl font-semibold text-white">

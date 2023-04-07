@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Guess, resolveGuess } from '../api/guesses';
 import { Player } from '../api/players';
+import { toast } from 'react-toastify';
 
 interface ProgressBarProps {
   guess: Guess | null;
@@ -28,11 +29,12 @@ const ProgressBar = ({ guess, setPlayer, setResolvedGuess }: ProgressBarProps) =
           }).catch(async (error) => {
             debugger;
             if (error.response && error.response.status === 400 && error.message === "Price at guess is still equal to current price") {
-              console.log("Price at guess is still equal to current price. Retrying in 5 seconds...");
+              toast("Price at guess is still equal to current price. Retrying in 5 seconds...");
               await new Promise(resolve => setTimeout(resolve, 5000));
               return resolveGuess(guess?.id!);
 
             } else {
+              toast.error("An error occurred while resolving guess");
               console.error("An error occurred while resolving guess:", error);
               throw error;
             }
