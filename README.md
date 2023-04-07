@@ -46,7 +46,7 @@ To run the server:
 
 4. Use environment variables for configuration;
 
-5. Implement e2e testing: Write automated tests for the server and client code to ensure that the application functions as expected;
+5. Implement E2E testing: Write automated tests for the server and client code to ensure that the application functions as expected;
 
 ## App Improvements
 
