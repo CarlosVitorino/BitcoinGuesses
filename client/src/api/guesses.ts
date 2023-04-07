@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Player } from './players';
 
-
 const baseUrl = 'http://localhost:8080/guesses';
 export type GuessDirection = 'up' | 'down'
 

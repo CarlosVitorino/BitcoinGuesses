@@ -18,7 +18,6 @@ export class PlayerController {
   public async Player (req: Request, res: Response): Promise<void> {
     const playerId = req.params.playerId
     const player = await this.playerService.getPlayerById(playerId)
-
     if (player != null) {
       res.status(200).json(player)
     } else {

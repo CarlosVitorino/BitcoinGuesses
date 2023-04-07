@@ -43,6 +43,7 @@ const HomePage: React.FC = () => {
         .catch(() => {
           console.log('Error fetching player');
         });
+
     } else {
       createPlayer()
         .then((player) => {
@@ -63,7 +64,6 @@ const HomePage: React.FC = () => {
       setScore(player?.score!);
       toast('Your guess has been resolved!');
     }
-
   }, [player, resolvedGuess]);
 
   const submitEvent = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -95,7 +95,6 @@ const HomePage: React.FC = () => {
       toast('Error submitting guess');
       console.error(error);
     }
-
   };
 
   return (
@@ -113,8 +112,8 @@ const HomePage: React.FC = () => {
           pauseOnHover
           theme="light"
         />
-        {/* Same as */}
         <ToastContainer />
+
         <div className="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
           <div className="flex items-center justify-between">
             <div className="text-xl font-semibold text-white">
@@ -124,7 +123,6 @@ const HomePage: React.FC = () => {
               </p>
             </div>
           </div>
-
           <div className="md:flex md:items-center">
             <ScoreDisplay score={score} />
             <PriceDisplay price={latestPrice} />

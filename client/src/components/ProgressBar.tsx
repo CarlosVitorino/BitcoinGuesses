@@ -19,7 +19,7 @@ interface ProgressBarProps {
     const startTimer = async () => {
       let counter = 60;
 
-      intervalId = setInterval(async () => {
+      let intervalId = setInterval(async () => {
         if (counter === 0) {
           const latestPrice = await getBtcUsdPrice();
           while(guess?.priceAtGuess === latestPrice){
@@ -52,7 +52,6 @@ interface ProgressBarProps {
   }, [guess]);
 
   const style = { "--value": progress } as React.CSSProperties
-
 
   return (
     <div className="card w-100 bg-primary text-primary-content">

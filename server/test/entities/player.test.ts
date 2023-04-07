@@ -21,6 +21,7 @@ describe('Player', () => {
         addScore: jest.fn(),
         toPlainObject: jest.fn()
       }
+
       const player = new Player(mockPlayerData)
       expect(player.id).toBe(mockPlayerData.id)
       expect(player.score).toBe(mockPlayerData.score)
@@ -34,6 +35,7 @@ describe('Player', () => {
       const player = new Player()
       const initialScore = player.score
       const amount = 1
+
       player.addScore(amount)
       expect(player.score).toBe(initialScore + amount)
     })

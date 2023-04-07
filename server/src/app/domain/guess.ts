@@ -36,6 +36,7 @@ export class Guess {
     if (this.resolvedAt != null) {
       throw new Error('This guess has already been resolved')
     }
+
     if (this.priceAtGuess == null) {
       throw new Error('This guess has no price')
     }

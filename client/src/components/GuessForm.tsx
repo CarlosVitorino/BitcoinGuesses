@@ -8,7 +8,6 @@ interface Props {
 }
 
 const GuessForm: React.FC<Props> = ({ guess, setGuess, resolvedGuess, submitEvent }) => {
-
   return (
     <div className="card w-100 bg-base-100">
       <div className="card-body">

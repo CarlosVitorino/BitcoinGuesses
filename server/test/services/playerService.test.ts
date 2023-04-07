@@ -24,7 +24,7 @@ describe('PlayerService', () => {
 
     it('should return the player when it is found', async () => {
       const mockPlayerData: PlayerProps = {
-        id: '1',
+        id: 'some-id',
         score: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -42,7 +42,7 @@ describe('PlayerService', () => {
   describe('createPlayer', () => {
     it('should create a new player', async () => {
       const mockPlayerData: PlayerProps = {
-        id: '1',
+        id: 'some-id',
         score: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
