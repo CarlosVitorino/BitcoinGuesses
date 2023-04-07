@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Guess, resolveGuess } from '../api/guesses';
 import { Player } from '../api/players';
 import { toast } from 'react-toastify';
+import { getBtcUsdPrice } from '../api/coinbase';
 
 interface ProgressBarProps {
   guess: Guess | null;
@@ -9,7 +10,7 @@ interface ProgressBarProps {
   setResolvedGuess: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
 
-const ProgressBar = ({ guess, setPlayer, setResolvedGuess }: ProgressBarProps) => {
+  const ProgressBar = ({ guess, setPlayer, setResolvedGuess }: ProgressBarProps) => {
   const [progress, setProgress] = useState(60);
 
   useEffect(() => {
@@ -18,26 +19,22 @@ const ProgressBar = ({ guess, setPlayer, setResolvedGuess }: ProgressBarProps) =
     const startTimer = async () => {
       let counter = 60;
 
-      intervalId = setInterval(() => {
+      intervalId = setInterval(async () => {
         if (counter === 0) {
+          const latestPrice = await getBtcUsdPrice();
+          while(guess?.priceAtGuess === latestPrice){
+            // wait for price to change
+            await new Promise(r => setTimeout(r, 1000));
+          }
           clearInterval(intervalId);
           resolveGuess(guess?.id!)
             .then((player) => {
               setPlayer(player);
               setResolvedGuess(true);
-
             }).catch(async (error) => {
-              debugger;
-              if (error.response && error.response.status === 400 && error.message === "Price at guess is still equal to current price") {
-                toast("Price at guess is still equal to current price. Retrying in 5 seconds...");
-                await new Promise(resolve => setTimeout(resolve, 5000));
-                return resolveGuess(guess?.id!);
-
-              } else {
                 toast.error("An error occurred while resolving guess");
                 console.error("An error occurred while resolving guess:", error);
                 throw error;
-              }
             });
 
         } else {

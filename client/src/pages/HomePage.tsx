@@ -143,7 +143,7 @@ const HomePage: React.FC = () => {
                 <GuessDisplay guessDirection={guess?.guess} priceAtGuess={guess?.priceAtGuess} />
               </div>
               <div className="w-full mt-4">
-                <ProgressBar guess={guess} setPlayer={setPlayer} setResolvedGuess={setResolvedGuess} />
+                <ProgressBar guess={guess} setPlayer={setPlayer} setResolvedGuess={setResolvedGuess}/>
               </div>
             </div>
           </div>
