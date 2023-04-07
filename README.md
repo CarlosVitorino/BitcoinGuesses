@@ -12,10 +12,11 @@ Users can:
 * Start with a score of 0
 * The can close their browser and return to see their score and continue to make more guesses
 
-# How to run the application
+## How to run the application
+> The project consists of a client (ReactJS + TailwindCSS) and a server (NodeJS + Express) written in TypeScript.
 To run the app locally, follow these steps:
 
-## Client
+### Client
 To run the client:
 
 1. Navigate to the `/client` folder in your terminal.
@@ -23,7 +24,7 @@ To run the client:
 3. Run `npm run start` to start the development server.
 
 
-## Server
+### Server
 To run the server:
 
 1. Navigate to the `/server` folder of the project in your terminal.
