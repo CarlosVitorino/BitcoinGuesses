@@ -13,7 +13,7 @@ Users can:
 * The can close their browser and return to see their score and continue to make more guesses
 
 ## How to run the application
-> The project consists of a client (ReactJS + TailwindCSS) and a server (NodeJS + Express) written in TypeScript.
+> The project consists of a client (ReactJS, TailwindCSS) and a server (NodeJS, ExpressJS, AWS - DynamoDB) written in TypeScript.
 To run the app locally, follow these steps:
 
 ### Client
