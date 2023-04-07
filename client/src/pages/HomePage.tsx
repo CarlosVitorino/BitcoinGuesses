@@ -10,6 +10,7 @@ import ProgressBar from '../components/ProgressBar';
 import { getBtcUsdPrice } from '../api/coinbase';
 import { createPlayer, getPlayer, Player } from '../api/players';
 import { createGuess, Guess, GuessDirection } from '../api/guesses';
+import GuessDisplay from '../components/GuessDisplay';
 
 const HomePage: React.FC = () => {
   const [score, setScore] = useState(0);
@@ -88,7 +89,7 @@ const HomePage: React.FC = () => {
       newGuess = await createGuess(newGuess);
       setGuess(newGuess);
       setResolvedGuess(false);
-      toast('Your guess has been submitted!');
+      toast(`Guess submitted ${newGuess.guess} at ${newGuess.priceAtGuess}`);
       console.log(`Your guess is ${newGuess.guess}, with ID ${newGuess.id}`);
     } catch (error) {
       toast('Error submitting guess');
@@ -100,20 +101,20 @@ const HomePage: React.FC = () => {
   return (
     <div className="bg-gray-50 h-screen">
       <nav className="bg-indigo-500 shadow-lg">
-      <ToastContainer
-position="top-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-{/* Same as */}
-<ToastContainer />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        {/* Same as */}
+        <ToastContainer />
         <div className="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center">
           <div className="flex items-center justify-between">
             <div className="text-xl font-semibold text-white">
@@ -134,11 +135,16 @@ theme="light"
       <div className="container mx-auto px-6 py-8">
         <div className="md:flex md:items-center md:justify-center">
           <div className="grid grid-cols-2 gap-20">
-            <div className="p-4">
+            <div className="p-4 flex flex-col items-center">
               <GuessForm guess={guessDirection} setGuess={setGuessDirection} resolvedGuess={resolvedGuess} submitEvent={submitEvent} />
             </div>
-            <div className="p-4">
-              <ProgressBar guess={guess} setPlayer={setPlayer} setResolvedGuess={setResolvedGuess}/>
+            <div className="p-4 flex flex-col items-center">
+              <div className="w-full">
+                <GuessDisplay guessDirection={guess?.guess} priceAtGuess={guess?.priceAtGuess} />
+              </div>
+              <div className="w-full mt-4">
+                <ProgressBar guess={guess} setPlayer={setPlayer} setResolvedGuess={setResolvedGuess} />
+              </div>
             </div>
           </div>
         </div>

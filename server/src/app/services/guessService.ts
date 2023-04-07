@@ -23,6 +23,8 @@ class GuessService implements IGuessService {
   }
 
   async createGuess (guessProps: GuessProps): Promise<Guess | undefined> {
+    const latestPrice = await this.priceFetcher.fetchLatestPrice()
+    guessProps.priceAtGuess = latestPrice
     let guess = new Guess(guessProps)
     guess = await this.guessRepository.createGuess(guess)
     return guess
@@ -34,12 +36,6 @@ class GuessService implements IGuessService {
 
   async resolveGuess (guess: Guess): Promise<Player | undefined> {
     const latestPrice = await this.priceFetcher.fetchLatestPrice()
-    // TODO - From what I've researched, for spot history values with coinbase's api you need to have pro access. The problem could also be solved by using another third-party API.
-    // const doubleCheckPriceAtGuess = await this.priceFetcher.fetchPriceAt(guess.createdAt.toISOString())
-    // if (doubleCheckPriceAtGuess !== guess.priceAtGuess) {
-    //   throw new PriceAtGuessError()
-    // }
-
     const elapsedSeconds = (new Date().getTime() - guess.createdAt.getTime()) / 1000
     if (elapsedSeconds <= 60) {
       throw new GuessTooRecentError()
