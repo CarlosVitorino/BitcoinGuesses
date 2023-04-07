@@ -1,5 +1,5 @@
 export default {
-  roots: ['<rootDir>/src'],
+  roots: ['<rootDir>/src', '<rootDir>/test'],
   collectCoverage: true,
   collectCoverageFrom: ['<rootDir>/src/**/*ts'],
   coverageDirectory: 'coverage',

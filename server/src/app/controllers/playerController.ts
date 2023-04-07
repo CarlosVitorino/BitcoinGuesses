@@ -25,16 +25,4 @@ export class PlayerController {
       res.status(404).json({ error: 'Player not found' })
     }
   }
-
-/*   public async getPlayerScore (req: Request, res: Response): Promise<void> {
-    const playerId = req.params.playerId
-
-    const result = await this.playerService.getPlayerScore(playerId)
-
-    if (result != null) {
-      res.status(200).json(result)
-    } else {
-      res.status(404).json({ error: 'Player not found' })
-    }
-  } */
 }
