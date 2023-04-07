@@ -14,6 +14,7 @@ Users can:
 
 ## How to run the application
 > The project consists of a client (ReactJS, TailwindCSS) and a server (NodeJS, ExpressJS, AWS - DynamoDB) written in TypeScript.
+
 To run the app locally, follow these steps:
 
 ### Client
