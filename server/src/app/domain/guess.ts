@@ -36,17 +36,23 @@ export class Guess {
     if (this.resolvedAt != null) {
       throw new Error('This guess has already been resolved')
     }
+    if (this.priceAtGuess == null) {
+      throw new Error('This guess has no price')
+    }
 
-    const isPriceHigher = price > (this.priceAtGuess ?? 0)
+    const isPriceHigher = price > (this.priceAtGuess)
+
     if (this.guess === 'up' && isPriceHigher) {
-      this.resolvedAt = new Date()
       this.isCorrect = true
     } else if (this.guess === 'down' && !isPriceHigher) {
-      this.resolvedAt = new Date()
       this.isCorrect = true
-    } else {
+    } else if (price === (this.priceAtGuess)) {
       throw new PriceDidntChangeError()
+    } else {
+      this.isCorrect = false
     }
+
+    this.resolvedAt = new Date()
   }
 
   toPlainObject (): any {

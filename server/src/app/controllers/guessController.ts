@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express'
 import { type IGuessService } from '../services/guessService'
 import { type GuessProps } from '../domain/guess'
-import { PriceAtGuessError, GuessTooRecentError } from '../../errors/errors'
+import { PriceDidntChangeError, PriceAtGuessError, GuessTooRecentError } from '../../errors/errors'
 
 export class GuessController {
   private readonly guessService: IGuessService
@@ -22,7 +22,7 @@ export class GuessController {
     const guessId: string = req.params.guessId
     const guess = await this.guessService.getUnresolvedGuess(guessId)
     if (guess == null) {
-      res.status(404).send()
+      res.status(404).json({ message: 'Guess not found' })
       return
     }
 
@@ -30,9 +30,14 @@ export class GuessController {
       const player = await this.guessService.resolveGuess(guess)
       res.status(200).send(player)
     } catch (error) {
-      if (error instanceof PriceAtGuessError) {
+      if (error instanceof PriceDidntChangeError) {
+        console.log(error.message)
+        res.status(400).json({ message: error.message })
+      } else if (error instanceof PriceAtGuessError) {
+        console.log(error.message)
         res.status(400).json({ message: error.message })
       } else if (error instanceof GuessTooRecentError) {
+        console.log(error.message)
         res.status(400).json({ message: error.message })
       } else {
         console.error(error)

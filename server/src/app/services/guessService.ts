@@ -3,7 +3,7 @@ import { type Player } from '../domain/player'
 import { type IGuessRepository } from '../../interfaces/repositories/guessRepository'
 import { type IPlayerRepository } from '../../interfaces/repositories/playerRepository'
 import { type IPriceFetcher } from '../../interfaces/external/priceFetcher'
-import { PriceAtGuessError, GuessTooRecentError } from '../../errors/errors'
+import { GuessTooRecentError } from '../../errors/errors'
 
 interface IGuessService {
   createGuess: (guessProps: GuessProps) => Promise<Guess | undefined>
@@ -34,10 +34,11 @@ class GuessService implements IGuessService {
 
   async resolveGuess (guess: Guess): Promise<Player | undefined> {
     const latestPrice = await this.priceFetcher.fetchLatestPrice()
-    const doubleCheckPriceAtGuess = await this.priceFetcher.fetchPriceAt(guess.createdAt.toISOString())
-    if (doubleCheckPriceAtGuess !== guess.priceAtGuess) {
-      throw new PriceAtGuessError()
-    }
+    // TODO - From what I've researched, for spot history values with coinbase's api you need to have pro access. The problem could also be solved by using another third-party API.
+    // const doubleCheckPriceAtGuess = await this.priceFetcher.fetchPriceAt(guess.createdAt.toISOString())
+    // if (doubleCheckPriceAtGuess !== guess.priceAtGuess) {
+    //   throw new PriceAtGuessError()
+    // }
 
     const elapsedSeconds = (new Date().getTime() - guess.createdAt.getTime()) / 1000
     if (elapsedSeconds <= 60) {

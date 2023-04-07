@@ -25,7 +25,7 @@ export class PlayerRepository implements IPlayerRepository {
 
     await this.client.put(params).promise()
 
-    return player
+    return new Player(player)
   }
 
   async getPlayerById (id: string): Promise<Player | undefined> {
@@ -42,7 +42,7 @@ export class PlayerRepository implements IPlayerRepository {
       return undefined
     }
 
-    return result.Item as Player
+    return new Player(result.Item as Player)
   }
 
   async updatePlayerScore (playerId: string, isCorrect: boolean | undefined): Promise<Player | undefined> {

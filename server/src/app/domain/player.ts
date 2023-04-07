@@ -5,6 +5,8 @@ export interface PlayerProps {
   score: number
   createdAt: Date
   updatedAt: Date
+  addScore: (amount: number) => void
+  toPlainObject: () => any
 }
 
 export class Player {
@@ -13,11 +15,18 @@ export class Player {
   public createdAt: Date
   public updatedAt: Date
 
-  constructor () {
-    this.id = uuid()
-    this.score = 0
-    this.createdAt = new Date()
-    this.updatedAt = new Date()
+  constructor (playerData?: PlayerProps) {
+    if (playerData != null) {
+      this.id = playerData.id
+      this.score = playerData.score
+      this.createdAt = playerData.createdAt
+      this.updatedAt = playerData.updatedAt
+    } else {
+      this.id = uuid()
+      this.score = 0
+      this.createdAt = new Date()
+      this.updatedAt = new Date()
+    }
   }
 
   addScore (amount: number): void {
