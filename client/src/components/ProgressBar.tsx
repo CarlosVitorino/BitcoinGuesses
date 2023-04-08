@@ -1,55 +1,55 @@
-import { useEffect, useState } from 'react';
-import { Guess, resolveGuess } from '../api/guesses';
-import { Player } from '../api/players';
-import { toast } from 'react-toastify';
-import { getBtcUsdPrice } from '../api/coinbase';
+import { useEffect, useState } from 'react'
+import { Guess, resolveGuess } from '../api/guesses'
+import { Player } from '../api/players'
+import { toast } from 'react-toastify'
+import { getBtcUsdPrice } from '../api/coinbase'
 
 interface ProgressBarProps {
-  guess: Guess | null;
-  setPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
-  setResolvedGuess: React.Dispatch<React.SetStateAction<boolean | null>>;
+  guess: Guess | null
+  setPlayer: React.Dispatch<React.SetStateAction<Player | null>>
+  setResolvedGuess: React.Dispatch<React.SetStateAction<boolean | null>>
 }
 
   const ProgressBar = ({ guess, setPlayer, setResolvedGuess }: ProgressBarProps) => {
-  const [progress, setProgress] = useState(60);
+  const [progress, setProgress] = useState(60)
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
+    let intervalId: NodeJS.Timeout
 
     const startTimer = async () => {
-      let counter = 60;
+      let counter = 60
 
       let intervalId = setInterval(async () => {
         if (counter === 0) {
-          const latestPrice = await getBtcUsdPrice();
+          const latestPrice = await getBtcUsdPrice()
           while(guess?.priceAtGuess === latestPrice){
             // wait for price to change
-            await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 1000))
           }
-          clearInterval(intervalId);
+          clearInterval(intervalId)
           resolveGuess(guess?.id!)
             .then((player) => {
-              setPlayer(player);
-              setResolvedGuess(true);
+              setPlayer(player)
+              setResolvedGuess(true)
             }).catch(async (error) => {
-                toast.error("An error occurred while resolving guess");
-                console.error("An error occurred while resolving guess:", error);
-                throw error;
-            });
+                toast.error("An error occurred while resolving guess")
+                console.error("An error occurred while resolving guess:", error)
+                throw error
+            })
 
         } else {
-          counter--;
-          setProgress(counter);
+          counter--
+          setProgress(counter)
         }
-      }, 1000);
-    };
-
-    if (guess != null && guess.resolvedAt == null) {
-      startTimer();
+      }, 1000)
     }
 
-    return () => clearInterval(intervalId);
-  }, [guess]);
+    if (guess != null && guess.resolvedAt == null) {
+      startTimer()
+    }
+
+    return () => clearInterval(intervalId)
+  }, [guess])
 
   const style = { "--value": progress } as React.CSSProperties
 
@@ -69,7 +69,7 @@ interface ProgressBarProps {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProgressBar;
+export default ProgressBar

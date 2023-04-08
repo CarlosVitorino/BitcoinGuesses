@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 interface Props {
   guessDirection: string | undefined
@@ -17,7 +17,7 @@ const GuessDisplay: React.FC<Props> = ({ guessDirection, priceAtGuess }) => {
         <div className="stat-value text-primary">{priceAtGuess}</div>
       </div>  
     </div>
-  );
-};
+  )
+}
 
-export default GuessDisplay;
+export default GuessDisplay

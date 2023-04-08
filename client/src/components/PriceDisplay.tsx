@@ -1,33 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 interface Props {
-  price: number;
+  price: number
 }
 
 const PriceDisplay: React.FC<Props> = ({ price }) => {
-  const [previousPrice, setPreviousPrice] = useState<number | null>(null);
-  const [blinkClass, setBlinkClass] = useState<string>('');
+  const [previousPrice, setPreviousPrice] = useState<number | null>(null)
+  const [blinkClass, setBlinkClass] = useState<string>('')
 
   useEffect(() => {
     if (previousPrice === null) {
-      setPreviousPrice(price);
-      return;
+      setPreviousPrice(price)
+      return
     }
 
     if (price > previousPrice) {
-      setBlinkClass('bg-green-500');
+      setBlinkClass('bg-green-500')
     } else if (price < previousPrice) {
-      setBlinkClass('bg-orange-600');
+      setBlinkClass('bg-orange-600')
     }
 
-    setPreviousPrice(price);
+    setPreviousPrice(price)
 
     const timeoutId = setTimeout(() => {
-      setBlinkClass('');
-    }, 500);
+      setBlinkClass('')
+    }, 500)
 
-    return () => clearTimeout(timeoutId);
-  }, [price, previousPrice]);
+    return () => clearTimeout(timeoutId)
+  }, [price, previousPrice])
 
   return (
     <div
@@ -38,7 +38,7 @@ const PriceDisplay: React.FC<Props> = ({ price }) => {
         <span className="ml-2 text-sm font-medium text-gray-600">USD/BTC</span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PriceDisplay;
+export default PriceDisplay

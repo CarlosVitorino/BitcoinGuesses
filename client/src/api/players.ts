@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from 'axios'
 
-const baseUrl = 'http://localhost:8080/players';
+const baseUrl = 'http://localhost:8080/players'
 
 export interface Player {
   id: string
@@ -10,14 +10,14 @@ export interface Player {
 }
 
 export const createPlayer = async (): Promise<Player> => {
-  const response = await axios.get(`${baseUrl}/create`);
-  const data = response.data;
-  localStorage.setItem('playerId', data.id);
+  const response = await axios.get(`${baseUrl}/create`)
+  const data = response.data
+  localStorage.setItem('playerId', data.id)
   console.log('Player created:', data)
-  return data;
-};
+  return data
+}
 
 export const getPlayer = async (playerId: string): Promise<Player> => {
-  const response = await axios.get(`${baseUrl}/${playerId}`);
-  return response.data;
-};
+  const response = await axios.get(`${baseUrl}/${playerId}`)
+  return response.data
+}

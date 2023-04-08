@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 interface Props {
-  guess: string;
-  setGuess: React.Dispatch<React.SetStateAction<string>>;
-  resolvedGuess: boolean | null;
-  submitEvent: (e: React.FormEvent<HTMLFormElement>) => void;
+  guess: string
+  setGuess: React.Dispatch<React.SetStateAction<string>>
+  resolvedGuess: boolean | null
+  submitEvent: (e: React.FormEvent<HTMLFormElement>) => void
 }
 
 const GuessForm: React.FC<Props> = ({ guess, setGuess, resolvedGuess, submitEvent }) => {
@@ -37,7 +37,7 @@ const GuessForm: React.FC<Props> = ({ guess, setGuess, resolvedGuess, submitEven
       </div>
     </div >
 
-  );
-};
+  )
+}
 
-export default GuessForm;
+export default GuessForm

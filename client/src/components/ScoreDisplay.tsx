@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 interface Props {
-  score: number;
+  score: number
 }
 
 const ScoreDisplay: React.FC<Props> = ({ score }) => {
@@ -10,7 +10,7 @@ const ScoreDisplay: React.FC<Props> = ({ score }) => {
       <span className="text-lg text-gray-700 mr-2">Score:</span>
       <span className="text-lg font-bold">{score}</span>
     </div>
-  );
-};
+  )
+}
 
-export default ScoreDisplay;
+export default ScoreDisplay

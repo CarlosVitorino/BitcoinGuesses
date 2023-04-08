@@ -31,6 +31,7 @@ To run the server:
 1. Navigate to the `/server` folder of the project in your terminal.
 2. Run `npm install` to install the required dependencies.
 3. In `/server/config` duplicate the file `aws-config_dev.json` as `aws-config.json` and add your aws credentials.
+4. Run `npm run migrate` to execute database migrations.
 4. Run `npm run build` to build the server project.
 5. Run `npm run start` to start the server.
 
