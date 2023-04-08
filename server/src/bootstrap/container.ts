@@ -1,10 +1,10 @@
-import { GuessRepository } from './interfaces/repositories/guessRepository'
-import { PlayerRepository } from './interfaces/repositories/playerRepository'
-import { PriceFetcher } from './interfaces/external/priceFetcher'
-import { GuessController } from './app/controllers/guessController'
-import { PlayerController } from './app/controllers/playerController'
-import { PlayerService } from './app/services/playerService'
-import { GuessService } from './app/services/guessService'
+import { GuessRepository } from '../interfaces/repositories/guessRepository'
+import { PlayerRepository } from '../interfaces/repositories/playerRepository'
+import { PriceFetcher } from '../interfaces/external/priceFetcher'
+import { GuessController } from '../app/controllers/guessController'
+import { PlayerController } from '../app/controllers/playerController'
+import { PlayerService } from '../app/services/playerService'
+import { GuessService } from '../app/services/guessService'
 import * as AWS from 'aws-sdk'
 
 AWS.config.loadFromPath('./config/aws-config.json')

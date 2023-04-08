@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { container } from '../container'
+import { container } from '../bootstrap/container'
 
 const guessRoutes = Router()
 
